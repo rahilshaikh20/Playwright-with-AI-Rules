@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "id": { "type": "integer" },
+    "idBook": { "type": "integer" },
+    "url": { "type": ["string", "null"] }
+  },
+  "required": ["id", "idBook"],
+  "additionalProperties": false
+}

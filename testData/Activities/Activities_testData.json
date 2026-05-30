@@ -1,0 +1,18 @@
+{
+  "validActivity": {
+    "title": "Sample Activity",
+    "dueDate": "2026-05-30T12:00:00Z",
+    "completed": false
+  },
+  "invalidActivity": {
+    "title": 12345,
+    "completed": "not-a-boolean"
+  },
+  "boundaryActivity": {
+    "title": "",
+    "dueDate": "2026-01-01T00:00:00Z",
+    "completed": true
+  },
+  "nonExistingId": 999999999,
+  "invalidId": "abc"
+}

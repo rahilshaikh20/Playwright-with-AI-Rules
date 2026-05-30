@@ -1,0 +1,22 @@
+{
+  "validBook": {
+    "title": "Test Book",
+    "description": "A test book description",
+    "pageCount": 250,
+    "excerpt": "Sample excerpt",
+    "publishDate": "2026-05-30T12:00:00Z"
+  },
+  "invalidBook": {
+    "title": 999,
+    "pageCount": "not-a-number"
+  },
+  "boundaryBook": {
+    "title": "",
+    "description": "",
+    "pageCount": 0,
+    "excerpt": "",
+    "publishDate": "2026-01-01T00:00:00Z"
+  },
+  "nonExistingId": 999999999,
+  "invalidId": "abc"
+}

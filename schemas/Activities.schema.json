@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "id": { "type": "integer" },
+    "title": { "type": ["string", "null"] },
+    "dueDate": { "type": "string", "format": "date-time" },
+    "completed": { "type": "boolean" }
+  },
+  "required": ["id", "dueDate", "completed"],
+  "additionalProperties": false
+}

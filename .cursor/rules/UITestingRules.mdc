@@ -1,0 +1,602 @@
+---
+
+## alwaysApply: true
+
+# UI Automation Framework Standards
+
+## Objective
+
+Create a scalable, maintainable, enterprise-grade UI automation framework using Playwright with TypeScript for the application:
+
+```text
+https://practicetestautomation.com/practice-test-login/
+```
+
+The framework must support manual test case generation, automated execution, reporting, test data management, configuration management, and CI/CD integration.
+
+---
+
+# Framework Technology Stack
+
+## Mandatory Technologies
+
+* Playwright
+* TypeScript
+* Playwright MCP
+* Page Object Model (POM)
+* Allure Reporting
+* Node.js
+* npm
+* ESLint
+* Prettier
+
+---
+
+# Application Exploration Rules
+
+Before creating automation:
+
+1. Explore all accessible pages, modules, forms, menus, links, and user flows.
+2. Identify:
+
+   * Navigation paths
+   * Input fields
+   * Buttons
+   * Links
+   * Validations
+   * Success messages
+   * Error messages
+   * Dynamic elements
+3. Document every identified module.
+4. Identify reusable components.
+5. Identify positive, negative, boundary, and validation scenarios.
+
+---
+
+# Manual Test Case Creation Rules
+
+## Test Case Repository
+
+Create a dedicated folder:
+
+```text
+/testcases
+```
+
+---
+
+## Module-Based Documentation
+
+Create separate markdown files for every module.
+
+Example:
+
+```text
+testcases/
+├── Login.md
+├── Courses.md
+```
+
+---
+
+## Test Case Template
+
+Each test case must include:
+
+```markdown
+Test Case ID:
+Module:
+Title:
+Priority:
+Preconditions:
+Test Data:
+Steps:
+Expected Result:
+Post Conditions:
+Automation Candidate: Yes/No
+```
+
+---
+
+## Coverage Requirements
+
+Create manual test cases for:
+
+### Positive Scenarios
+
+* Successful operations
+* Valid user flows
+* Navigation verification
+
+### Negative Scenarios
+
+* Invalid credentials
+* Missing fields
+* Invalid input formats
+* Unauthorized access
+
+### Boundary Scenarios
+
+* Minimum character limits
+* Maximum character limits
+* Special characters
+* Empty values
+
+### UI Validation Scenarios
+
+* Labels
+* Placeholders
+* Tooltips
+* Button states
+* Error messages
+* Success messages
+
+---
+
+# Framework Structure
+
+```text
+project-root/
+│
+├── tests/
+│
+├── pages/
+│
+├── testcases/
+│
+├── testData/
+│
+├── config/
+│
+├── utils/
+│
+├── fixtures/
+│
+├── reports/
+│
+│
+├── allure-report/
+│
+├── screenshots/
+│
+├── videos/
+│
+├── traces/
+│
+│
+├── playwright.config.ts
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+# Page Object Model Standards
+
+## Page Creation Rules
+
+Create one page object per module.
+
+Examples:
+
+```text
+pages/
+├── LoginPage.ts
+├── HomePage.ts
+├── NavigationPage.ts
+```
+
+---
+
+## Page Object Responsibilities
+
+Each page class must contain:
+
+### Locators
+
+Store all locators in one place.
+
+Example:
+
+```typescript
+private readonly usernameInput
+private readonly passwordInput
+private readonly loginButton
+```
+
+### Actions
+
+Reusable user actions.
+
+Example:
+
+```typescript
+login()
+logout()
+navigateToPage()
+```
+
+### Validations
+
+Reusable assertions.
+
+Example:
+
+```typescript
+verifyLoginSuccess()
+verifyErrorMessage()
+```
+
+---
+
+## Page Object Restrictions
+
+Never:
+
+* Place assertions inside locators
+* Hardcode waits
+* Duplicate locators
+* Duplicate actions
+
+---
+
+# Test Automation Rules
+
+## Test File Location
+
+Store tests under:
+
+```text
+tests/
+```
+
+---
+
+## Naming Convention
+
+```text
+<ModuleName>.spec.ts
+```
+
+Examples:
+
+```text
+Login.spec.ts
+Logout.spec.ts
+Navigation.spec.ts
+```
+
+---
+
+## Test Structure
+
+Use:
+
+```typescript
+test.describe()
+test.beforeEach()
+test.afterEach()
+test.step()
+```
+
+for readability and maintainability.
+
+---
+
+# Locator Strategy Rules
+
+Locator priority:
+
+1. data-testid
+2. aria-label
+3. role selectors
+4. text selectors
+5. CSS selectors
+6. XPath (last resort)
+
+Avoid brittle locators.
+
+---
+
+# Wait Handling Rules
+
+Use:
+
+```typescript
+await expect(element).toBeVisible()
+await expect(element).toBeEnabled()
+```
+
+Prefer Playwright auto-waiting.
+
+Never use:
+
+```typescript
+waitForTimeout()
+```
+
+unless explicitly justified.
+
+---
+
+# Test Data Management Rules
+
+Store test data under:
+
+```text
+testData/
+```
+
+Example:
+
+```text
+testData/
+└── testData.json
+```
+
+---
+
+## Data Separation
+
+Never hardcode:
+
+* Usernames
+* Passwords
+* URLs
+* Expected messages
+
+inside test files.
+
+Use centralized test data.
+
+Example:
+
+```json
+{
+  "validUser": {
+    "username": "student",
+    "password": "Password123"
+  },
+  "invalidUser": {
+    "username": "invalid",
+    "password": "invalid"
+  }
+}
+```
+
+---
+
+# Configuration Management Rules
+
+Store all configurations separately.
+
+Location:
+
+```text
+config/
+```
+
+Example:
+
+```text
+config/
+├── env.ts
+├── urls.ts
+├── constants.ts
+```
+
+---
+
+## Configurable Parameters
+
+Externalize:
+
+* Base URL
+* Environment URLs
+* Credentials
+* Browser settings
+* Timeouts
+* Retry count
+
+Never hardcode configuration values.
+
+---
+
+# Screenshot Rules
+
+Capture screenshots:
+
+* On failure
+* On critical checkpoints
+* On validation failures
+
+Store under:
+
+```text
+screenshots/
+```
+
+---
+
+# Video Recording Rules
+
+Enable:
+
+```typescript
+video: 'retain-on-failure'
+```
+
+Store under:
+
+```text
+videos/
+```
+
+---
+
+# Trace Collection Rules
+
+Enable Playwright traces.
+
+```typescript
+trace: 'retain-on-failure'
+```
+
+Store under:
+
+```text
+traces/
+```
+
+---
+
+# Logging Rules
+
+Capture:
+
+* Test start time
+* Test end time
+* Execution duration
+* Browser information
+* Environment information
+* Failure details
+
+Store logs under:
+
+```text
+logs/
+```
+
+---
+
+# Allure Reporting Rules
+
+## Mandatory Reporting
+
+Always install and configure:
+
+```bash
+npm install -D allure-playwright
+```
+
+Generate:
+
+```bash
+allure generate
+allure open
+```
+
+---
+
+## Report Content
+
+Reports must display:
+
+### Execution Summary
+
+* Total Tests
+* Passed
+* Failed
+* Skipped
+* Broken
+* Execution Time
+
+### Test Details
+
+* Steps
+* Screenshots
+* Videos
+* Traces
+* Attachments
+* Environment
+
+### Failure Analysis
+
+* Error message
+* Stack trace
+* Screenshot
+* Trace link
+
+---
+
+# Reporting Enhancements
+
+Use Allure features:
+
+* Epic
+* Feature
+* Story
+* Severity
+* Owner
+* Tags
+
+Example:
+
+```typescript
+allure.epic('Authentication')
+allure.feature('Login')
+allure.story('Valid Login')
+```
+
+---
+
+# Code Quality Standards
+
+Mandatory:
+
+* TypeScript strict mode
+* ESLint compliance
+* Prettier formatting
+* No unused variables
+* No duplicate code
+* Strong typing
+
+---
+
+# CI/CD Compatibility
+
+Framework must support:
+
+* GitHub Actions
+* Azure DevOps
+* GitLab CI
+* Jenkins
+
+Artifacts to publish:
+
+* Allure Report
+* Screenshots
+* Videos
+* Traces
+* Logs
+
+---
+
+# Reliability Standards
+
+Enable:
+
+* Retry mechanism
+* Parallel execution
+* Test isolation
+* Independent execution
+
+Tests must not depend on execution order.
+
+---
+
+# Final Deliverables
+
+The generated automation framework must include:
+
+1. Complete module exploration.
+2. Manual test cases for every discovered module.
+3. Playwright automation for all manual test cases.
+4. Page Object Model implementation.
+5. Centralized configuration management.
+6. Centralized test data management.
+7. Allure reporting integration.
+8. Screenshot, video, and trace capture.
+9. CI/CD-ready project structure.
+10. Production-grade coding standards.
+11. Maintainable, scalable, reusable architecture.

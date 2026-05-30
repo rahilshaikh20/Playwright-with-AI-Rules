@@ -1,0 +1,11 @@
+reports/
+logs/
+node_modules/
+dist/
+playwright-report/
+test-results/
+allure-results/
+allure-report/
+screenshots/
+videos/
+traces/

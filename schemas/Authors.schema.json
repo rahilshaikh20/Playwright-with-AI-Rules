@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "id": { "type": "integer" },
+    "idBook": { "type": "integer" },
+    "firstName": { "type": ["string", "null"] },
+    "lastName": { "type": ["string", "null"] }
+  },
+  "required": ["id", "idBook"],
+  "additionalProperties": false
+}

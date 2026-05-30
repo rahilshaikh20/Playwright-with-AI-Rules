@@ -1,0 +1,19 @@
+{
+  "validAuthor": {
+    "idBook": 1,
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "invalidAuthor": {
+    "idBook": "invalid",
+    "firstName": 123
+  },
+  "boundaryAuthor": {
+    "idBook": 0,
+    "firstName": "",
+    "lastName": ""
+  },
+  "nonExistingId": 999999999,
+  "invalidId": "abc",
+  "bookIdForLookup": 1
+}

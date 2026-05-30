@@ -1,0 +1,33 @@
+{
+  "validUser": {
+    "username": "student",
+    "password": "Password123"
+  },
+  "invalidUser": {
+    "username": "incorrectUser",
+    "password": "Password123"
+  },
+  "invalidPassword": {
+    "username": "student",
+    "password": "incorrectPassword"
+  },
+  "emptyCredentials": {
+    "username": "",
+    "password": ""
+  },
+  "boundaryUser": {
+    "username": "a",
+    "password": "1"
+  },
+  "messages": {
+    "invalidUsername": "Your username is invalid!",
+    "invalidPassword": "Your password is invalid!",
+    "successText": "Congratulations",
+    "successLoggedIn": "successfully logged in",
+    "logoutButton": "Log out"
+  },
+  "pageTitles": {
+    "login": "Test login",
+    "loggedIn": "Logged In Successfully"
+  }
+}

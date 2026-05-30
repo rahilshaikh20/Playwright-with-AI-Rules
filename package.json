@@ -1,0 +1,31 @@
+{
+  "name": "pdf-mcp-demo-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --config=playwright.ui.config.ts",
+    "test:report": "playwright test --project=api && ts-node utils/generateReport.ts",
+    "report": "ts-node utils/generateReport.ts",
+    "allure:clean": "rm -rf allure-results allure-report",
+    "allure:generate": "allure generate allure-results -o allure-report --clean",
+    "allure:generate:single": "allure generate allure-results -o allure-report --clean --single-file",
+    "allure:serve": "allure serve allure-results -p 5050",
+    "allure:open": "allure open allure-report -p 5050",
+    "test:ui:report": "npm run allure:clean && npm run test:ui && npm run allure:generate:single",
+    "lint": "eslint . --ext .ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "allure-commandline": "^2.34.0",
+    "allure-playwright": "^3.2.2",
+    "eslint": "^9.27.0",
+    "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

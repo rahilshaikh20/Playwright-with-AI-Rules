@@ -1,0 +1,442 @@
+# API Automation Testing Standards
+
+## API Discovery Rules
+
+* Swagger/OpenAPI specification URL:
+
+  * `https://fakerestapi.azurewebsites.net/swagger/v1/swagger.json`
+
+* Always parse and validate the Swagger/OpenAPI specification before test generation.
+
+* Automatically discover all Controllers, Endpoints, Methods, Parameters, Request Bodies, Response Schemas, Status Codes, and Security Requirements.
+
+* Generate tests for every endpoint defined in the specification.
+
+* Detect newly added endpoints and automatically include them in test coverage.
+
+* Validate that Swagger definitions match actual API responses.
+
+---
+
+# Test Framework Rules
+
+## Technology Stack
+
+* Use Playwright Test Runner for API testing.
+* Use Playwright APIRequestContext for all API calls.
+* Use TypeScript.
+* Use async/await throughout the framework.
+* Follow Page Object Model principles adapted for API testing (API Client Layer).
+* Enable strict TypeScript mode.
+* Use ESLint and Prettier standards.
+* Save Swagger URL and Auth tokens in separate config files
+
+---
+
+# Project Structure Rules
+
+```text
+project-root/
+│
+├── tests/
+│   ├── Activities/
+│   │   └── Activities_test.ts
+│   ├── Authors/
+│   │   └── Authors_test.ts
+│   └── ...
+│
+├── testData/
+│   ├── Activities/
+│   │   └── Activities_testData.json
+│   ├── Authors/
+│   │   └── Authors_testData.json
+│   └── ...
+│
+├── apiClients/
+│   ├── ActivitiesClient.ts
+│   ├── AuthorsClient.ts
+│   └── ...
+│
+├── schemas/
+│   ├── Activities.schema.json
+│   └── ...
+│
+├── utils/
+│   ├── reportHelper.ts
+│   ├── logger.ts
+│   ├── swaggerParser.ts
+│   ├── schemaValidator.ts
+│   └── dataGenerator.ts
+│
+├── reports/
+│
+└── playwright.config.ts
+```
+
+---
+
+# Controller-Based Test Rules
+
+* Create one test file per controller.
+* File naming convention:
+
+```text
+<ControllerName>_test.ts
+```
+
+Examples:
+
+```text
+Activities_test.ts
+Authors_test.ts
+Books_test.ts
+Users_test.ts
+```
+
+* Each controller test file must contain tests for all endpoints under that controller.
+* Group tests using Playwright `test.describe()` blocks.
+
+Example:
+
+```typescript
+test.describe('Activities Controller', () => {
+});
+```
+
+---
+
+# Test Data Rules
+
+* Store test data separately from test scripts.
+* Create dedicated JSON files under the `testData` folder.
+* Never hardcode request bodies inside test files unless unavoidable.
+* Support:
+
+  * Positive data
+  * Negative data
+  * Boundary data
+  * Invalid data
+
+Example:
+
+```json
+{
+  "validActivity": {},
+  "invalidActivity": {},
+  "boundaryActivity": {}
+}
+```
+
+---
+
+# API Validation Rules
+
+Every endpoint must validate:
+
+## Functional Validation
+
+* Response status code
+* Response headers
+* Content-Type
+* Response body
+* Required fields
+* Optional fields
+* Response schema
+* Data types
+* Enum values
+* Pagination
+* Sorting
+* Filtering
+
+---
+
+## CRUD Validation
+
+For Create endpoints:
+
+* Successful creation
+* Duplicate record handling
+* Missing mandatory fields
+* Invalid payload
+
+For Read endpoints:
+
+* Get all records
+* Get by ID
+* Get invalid ID
+* Get non-existing ID
+
+For Update endpoints:
+
+* Successful update
+* Partial update
+* Invalid update payload
+* Update non-existing resource
+
+For Delete endpoints:
+
+* Successful delete
+* Delete already deleted record
+* Delete invalid ID
+
+---
+
+# Status Code Validation
+
+Validate all applicable responses:
+
+```text
+200 OK
+201 Created
+202 Accepted
+204 No Content
+400 Bad Request
+401 Unauthorized
+403 Forbidden
+404 Not Found
+405 Method Not Allowed
+409 Conflict
+415 Unsupported Media Type
+422 Validation Error
+429 Too Many Requests
+500 Internal Server Error
+502 Bad Gateway
+503 Service Unavailable
+```
+
+---
+
+# Schema Validation Rules
+
+* Validate every response against Swagger schema.
+* Fail test if:
+
+  * Required fields are missing.
+  * Additional unexpected fields appear.
+  * Data types do not match.
+  * Enum values are invalid.
+
+---
+
+# Performance Validation Rules
+
+Capture:
+
+* Response time
+* DNS lookup time (if available)
+* Connection time
+* SSL handshake time (if available)
+* Payload size
+* Request size
+
+Validate:
+
+```text
+GET < 2000ms
+POST < 3000ms
+PUT < 3000ms
+DELETE < 3000ms
+```
+
+Flag slower responses as warnings.
+
+---
+
+# Reliability Rules
+
+Implement:
+
+* Automatic retries for transient failures.
+* Request timeout handling.
+* Network failure validation.
+* Service unavailable validation.
+* Graceful error logging.
+
+---
+
+# Security Validation Rules
+
+Validate:
+
+* Missing authentication token
+* Invalid authentication token
+* Expired token
+* Invalid content type
+* Injection attempts
+* XSS payloads
+* SQL injection patterns
+* Header manipulation
+* Large payload handling
+
+Never log secrets, passwords, API keys, or tokens.
+
+---
+
+# Data Management Rules
+
+* Generate unique test data dynamically.
+* Avoid test data collisions.
+* Support cleanup after execution.
+* Ensure tests are independent and repeatable.
+* Do not rely on execution order.
+
+---
+
+# Logging Rules
+
+Capture for every request:
+
+* Endpoint URL
+* HTTP method
+* Query parameters
+* Request headers
+* Request payload
+* Response headers
+* Response payload
+* Status code
+* Response time
+* Timestamp
+* Correlation ID (if available)
+
+Store logs separately from reports.
+
+---
+
+# Reporting Rules
+
+## HTML Report Requirements
+
+Always generate a standalone HTML report.
+
+Location:
+
+```text
+reports/
+```
+
+Features:
+
+* Responsive design
+* Modern dark theme
+* Dashboard layout
+* Professional UI
+* Mobile-friendly design
+
+---
+
+## Dashboard Widgets
+
+Display:
+
+* Total Tests
+* Passed
+* Failed
+* Skipped
+* Warnings
+* Success Rate
+* Average Response Time
+* Fastest Endpoint
+* Slowest Endpoint
+* Total Execution Time
+* Add more parameters using best practices for reports
+* Add bar chart or 3-D Pie diagram  
+
+---
+
+## Endpoint Detail View
+
+Every endpoint result must be expandable.
+
+Display:
+
+* Endpoint URL
+* HTTP Method
+* Controller Name
+* Request Body
+* Request Headers
+* Response Body
+* Response Headers
+* Status Code
+* Response Time
+* Payload Size
+* Test Result
+* Failure Reason
+* Screenshot (if applicable)
+
+---
+
+## Visual Indicators
+
+Use:
+
+* Green → Passed
+* Red → Failed
+* Amber → Warning
+* Blue → Information
+
+Include:
+
+* Charts
+* Progress bars
+* Status badges
+* Summary tiles
+* Execution trends
+
+---
+
+# Failure Handling Rules
+
+On failure:
+
+* Capture complete request details.
+* Capture complete response details.
+* Capture stack trace.
+* Capture validation error details.
+* Continue execution of remaining tests.
+
+---
+
+# Maintainability Rules
+
+* No duplicated logic.
+* Reusable API clients.
+* Reusable validation helpers.
+* Centralized configuration.
+* Environment-based execution.
+* Configurable base URLs.
+* Configurable credentials.
+
+---
+
+# CI/CD Rules
+
+Framework must support:
+
+* GitHub Actions
+* Azure DevOps
+* GitLab CI
+* Jenkins
+
+Generate:
+
+* HTML reports
+* JUnit reports
+* JSON reports
+
+Artifacts must be publishable by CI pipelines.
+
+---
+
+# Coverage Rules
+
+The final automation suite must achieve:
+
+* 100% Endpoint Coverage
+* 100% Controller Coverage
+* Positive Test Coverage
+* Negative Test Coverage
+* Schema Validation Coverage
+* Error Handling Coverage
+* Reporting Coverage
+
+No endpoint defined in Swagger may remain untested.

@@ -1,0 +1,16 @@
+{
+  "validUser": {
+    "userName": "testuser",
+    "password": "TestPass123!"
+  },
+  "invalidUser": {
+    "userName": 12345,
+    "password": true
+  },
+  "boundaryUser": {
+    "userName": "",
+    "password": ""
+  },
+  "nonExistingId": 999999999,
+  "invalidId": "abc"
+}

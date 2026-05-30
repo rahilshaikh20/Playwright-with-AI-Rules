@@ -1,0 +1,17 @@
+{
+  "validCoverPhoto": {
+    "idBook": 1,
+    "url": "https://example.com/cover.jpg"
+  },
+  "invalidCoverPhoto": {
+    "idBook": "invalid",
+    "url": 12345
+  },
+  "boundaryCoverPhoto": {
+    "idBook": 0,
+    "url": ""
+  },
+  "nonExistingId": 999999999,
+  "invalidId": "abc",
+  "bookIdForLookup": 1
+}
